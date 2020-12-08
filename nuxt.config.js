@@ -14,6 +14,10 @@ export default {
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
+    '@/assets/css/style.css',
+    '@/assets/bootstrap-4.3.1/css/bootstrap.min.css',
+    '@/assets/bootstrap-4.3.1/css/bootstrap-reboot.min.css',
+    '@/assets/bootstrap-4.3.1/css/bootstrap-grid.min.css'
   ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
