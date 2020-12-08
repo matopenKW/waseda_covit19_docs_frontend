@@ -1,6 +1,7 @@
 <template>
   <div>
     <div id="header" class="p-1 text-right">
+      login name ... 
       <input id="logout-btn" type="button" class="btn btn-primary" value="ログアウト">
     </div>
     <div class="content">
