@@ -31,4 +31,4 @@ workflows:
       - deploy_dev:
           filters:
             branches:
-              only: feature/deploy-setting
+              only: main
