@@ -9,15 +9,14 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    ],
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
+    '@/assets/css/sb-admin-2.min.css',
     '@/assets/css/style.css',
-    '@/assets/bootstrap-4.3.1/css/bootstrap.min.css',
-    '@/assets/bootstrap-4.3.1/css/bootstrap-reboot.min.css',
-    '@/assets/bootstrap-4.3.1/css/bootstrap-grid.min.css'
+    '@/assets/vendor/fontawesome-free/css/all.min.css',
   ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
