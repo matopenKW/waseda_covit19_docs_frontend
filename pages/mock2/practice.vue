@@ -33,8 +33,8 @@
                         <h6 class="m-0 font-weight-bold text-primary">日時</h6>
                     </div>
                     <div class="card-body">
-                        <div class="mb-3"><input type="date"></div>
-                        <div><input type="time"> 〜 <input type="time"></div>
+                        <div class="mb-3"><input type="date" v-model="practiceDate"></div>
+                        <div><input type="time" v-model="startTime"> 〜 <input type="time" v-model="endTime"></div>
                     </div>
                 </div>
             </div>
@@ -102,7 +102,7 @@
                     </div>
                     <div class="card-body" v-show="routeDecision">
                         <p>{{ route }}</p>
-                        <a @click="chageRoute" class="btn btn-info btn-icon-split">
+                        <a href="javascript:void(0);" @click="chageRoute" class="btn btn-info btn-icon-split">
                             <span class="icon text-white-50">
                             <i class="fas fa-check"></i>
                             </span>
@@ -111,7 +111,7 @@
                     </div>
                     <div class="card-body" v-show="routeChage">
                         <textarea class="w-100" v-model="route"></textarea>
-                        <a @click="decisionRoute" class="btn btn-success btn-icon-split">
+                        <a href="javascript:void(0);" @click="decisionRoute" class="btn btn-success btn-icon-split">
                             <span class="icon text-white-50">
                             <i class="fas fa-check"></i>
                             </span>
@@ -159,6 +159,9 @@ export default {
             routeChage : false,
             contact : false,
             contactTime : false,
+            practiceDate: '',
+            startTime: '09:00',
+            endTime: '18:00',
         }
     },
     methods: {
@@ -176,6 +179,15 @@ export default {
         async checkContactTime(){
             this.contactTime = document.form.contactTime.checked
         },
+    },
+    mounted: function(){
+        var today = new Date();
+        today.setDate(today.getDate());
+        var yyyy = today.getFullYear();
+        var mm = ("0"+(today.getMonth()+1)).slice(-2);
+        var dd = ("0"+today.getDate()).slice(-2);
+        this.practiceDate = yyyy+'-'+mm+'-'+dd;
+
     },
 }
 </script>
