@@ -29,7 +29,7 @@
                         <label class="custom-control-label" for="customCheck">Remember Me</label>
                       </div>
                     </div>
-                    <a href="/mock2" class="btn btn-primary btn-user btn-block">
+                    <a href="javascript:void(0);" @click="login" class="btn btn-primary btn-user btn-block">
                       Login
                     </a>
                     <hr>
@@ -61,9 +61,53 @@
 </template>
 
 <script>
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/firestore'
+
 export default {
     layout ({ store }) {
-        return 'login'
+      return 'login'
+    },
+    methods: {
+      async login(){
+        var email = "test@example.com"
+        var password = "testtest"
+
+        firebase.auth().signInWithEmailAndPassword(email, password)
+        .then(function(user) {
+          alert('login')
+          console.log(user)
+        })
+        .catch(function(error){
+          alert(error)
+        });
+      },
+      async firebaseErrHandring(error){
+        var errorCode = error.code;
+        var errorMessage = error.message;
+
+        if (errorCode === 'auth/invalid-email') {
+          alert('メールアドレスの形式が不正です。');
+
+        } else if (errorCode === 'auth/wrong-password') {
+          alert('パスワードが間違っている又は不正な形式です。');
+
+        } else if (errorCode === 'auth/user-not-found') {
+          alert('存在しないユーザー又は削除された可能性があります。');
+
+        } else if (errorCode === 'auth/email-already-in-use'){
+          alert('既に登録してあるメールアドレスです。');
+
+        } else if (errorCode === 'auth/weak-password') {
+          alert('パスワードは６桁以上で登録してください。');
+
+        } else {
+          alert(errorMessage);
+
+        }
+        console.log(error);
+      }
     },
 }
 </script>
