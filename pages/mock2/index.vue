@@ -80,18 +80,20 @@ export default {
         return 'mock2'
     },
     methods: {
-        async practice(){
-            window.location.href = '/mock2/practice'
-        },
-        async route(){
-            window.location.href = '/mock2/route'
-        },
-        async history(){
-            window.location.href = '/mock2/history'
-        },
-        async admin(){
-            window.location.href = '/mock2/admin'
-        }
-    }
+      async practice(){
+        this.$router.push('/mock2/practice')
+      },
+      async route(){
+        this.$router.push('/mock2/route')
+      },
+      async history(){
+        this.$router.push('/mock2/history')
+      },
+      async admin(){
+        this.$router.push('/mock2/admin')
+      }
+    },
+    mounted: function(){
+    },
 }
 </script>

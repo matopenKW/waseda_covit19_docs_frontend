@@ -248,9 +248,7 @@
 </template>
 
 <script>
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/firestore'
+import firebase from '@/plugins/firebase';
 
 export default {
   head: {
@@ -261,82 +259,17 @@ export default {
       {
         src: "https://www.gstatic.com/firebasejs/8.2.0/firebase-analytics.js"
       }
-    ],
-    link: [
-        {
-          rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i'
-        }
-      ]
+    ]
   },
   components: {
     Sidebar: () => import ('~/components/Sidebar.vue'),
   },
   mounted: function(){
-    var firebaseConfig = {
-      apiKey: "AIzaSyCEva2RHNXoQuiybY1OnN0rMTbZ3vYw-OY",
-      authDomain: "waseda-covite19-docs.firebaseapp.com",
-      projectId: "waseda-covite19-docs",
-      storageBucket: "waseda-covite19-docs.appspot.com",
-      messagingSenderId: "411783997613",
-      appId: "1:411783997613:web:0c2a91df34cab0bfcb7e24",
-      measurementId: "G-VRK8088N7M"
-    };
-
-    if (firebase.apps.length === 0) {
-      firebase.initializeApp(firebaseConfig);
-    }
+    // if (this.$store.getters['user'].login){
+    //   alert('ログイン')
+    // } else {
+    //   alert('未ログイン')
+    // }
   }
-      // Initialize Firebase
 }
 </script>
-
-<style>
-html {
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
-  font-size: 16px;
-  word-spacing: 1px;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
-}
-
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-  margin: 0;
-}
-
-.button--green {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #3b8070;
-  color: #3b8070;
-  text-decoration: none;
-  padding: 10px 30px;
-}
-
-.button--green:hover {
-  color: #fff;
-  background-color: #3b8070;
-}
-
-.button--grey {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #35495e;
-  color: #35495e;
-  text-decoration: none;
-  padding: 10px 30px;
-  margin-left: 15px;
-}
-
-.button--grey:hover {
-  color: #fff;
-  background-color: #35495e;
-}
-</style>
