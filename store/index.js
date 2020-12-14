@@ -21,7 +21,7 @@ export const actions = {
     login({ dispatch }, payload) {
     firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
     .then(user => {
-        console.log('成功！')
+        console.log('login')
         dispatch('checkLogin')
     }).catch((error) => {
         var errorCode = error.code;
@@ -55,7 +55,7 @@ export const actions = {
                 commit('switchLogin')
             }
         })
-    },
+    }
 }
 
 export const mutations = {

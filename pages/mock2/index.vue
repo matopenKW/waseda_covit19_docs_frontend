@@ -76,9 +76,6 @@
 
 <script>
 export default {
-    layout ({ store }) {
-        return 'mock2'
-    },
     methods: {
       async practice(){
         this.$router.push('/mock2/practice')
