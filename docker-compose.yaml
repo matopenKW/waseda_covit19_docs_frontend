@@ -1,9 +1,11 @@
 version: '3'
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: .
+    volumes:
+      - ./:/usr/src/app
+    working_dir: /usr/src/app
+    command: npm start
     tty: true
     ports:
-     - "3000:3000"
+      - "3000:3000"
