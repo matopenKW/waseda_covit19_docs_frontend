@@ -62,6 +62,7 @@
 </template>
 
 <script>
+import firebase from '@/plugins/firebase';
 
 export default {
     data: function(){
@@ -89,6 +90,16 @@ export default {
             this.routes[index].detailShow = !f
         },
         async registRoute(index){
+            var database = firebase.database();
+            let room = "chat_room";
+            database.ref(room).push({
+                title: "タイトル",
+                body: "本文",
+            })
+            .catch((error) => {
+                alert(error);
+            });
+            
             var route = this.routes[index]
             route.newRow = false
             route.ro = true
