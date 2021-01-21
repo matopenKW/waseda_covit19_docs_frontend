@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site":"waseda-covit19-docs",
     "public": "build",
     "ignore": [
       "firebase.json",
