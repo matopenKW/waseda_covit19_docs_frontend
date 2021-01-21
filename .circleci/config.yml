@@ -2,7 +2,7 @@ version: 2
 jobs:
   deploy_dev: # ジョブ名
     docker:
-      - image: circleci/node:10.10
+      - image: node:12.16.1
     steps:
       - checkout
       - run:
@@ -10,7 +10,7 @@ jobs:
       - run:
           command: npm install --save-dev firebase-tools
       - run:
-          command: npm run build
+          command: yarn build
       - run:
           command: ./node_modules/.bin/firebase deploy --token=$FIREBASE_TOKEN            
 
