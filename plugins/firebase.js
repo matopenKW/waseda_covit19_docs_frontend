@@ -3,13 +3,13 @@ import firebase from 'firebase';
 if (!firebase.apps.length) {
     firebase.initializeApp({
         baseUrl: "//localhost:3000",
-        apiKey: "AIzaSyCEva2RHNXoQuiybY1OnN0rMTbZ3vYw-OY",
-        authDomain: "waseda-covite19-docs.firebaseapp.com",
-        projectId: "waseda-covite19-docs",
-        storageBucket: "waseda-covite19-docs.appspot.com",
-        messagingSenderId: "411783997613",
-        appId: "1:411783997613:web:0c2a91df34cab0bfcb7e24",
-        measurementId: "G-VRK8088N7M"
+        apiKey: "AIzaSyAxvcPVllD-sHzf0jm9StoQkmnWsya2RK4",
+        authDomain: "waseda-covit19-docs-ef204.firebaseapp.com",
+        projectId: "waseda-covit19-docs-ef204",
+        storageBucket: "waseda-covit19-docs-ef204.appspot.com",
+        messagingSenderId: "1068782021028",
+        appId: "1:1068782021028:web:9627401729351c458d7931",
+        measurementId: "G-DP1MTP908T"
     })
 }
 
