@@ -1,12 +1,10 @@
 version: '3'
 services:
   app:
-    image: node:12.6.0
-    working_dir: /var/www
+    build: .
     volumes:
       - ./:/var/www
     working_dir: /var/www
-    command: yarn start
     # command: yarn start
     tty: true
     ports:
