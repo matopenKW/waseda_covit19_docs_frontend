@@ -1,3 +1,13 @@
 <template>
-    <div>hello</div>
+    <div>{{ message }}</div>
 </template>
+
+<script>
+export default{
+data: function(){
+    return{
+        message:"hello2"
+    }
+}
+}
+</script>
