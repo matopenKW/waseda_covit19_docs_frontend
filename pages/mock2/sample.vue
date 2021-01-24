@@ -6,7 +6,7 @@
 export default{
 data: function(){
     return{
-        message:"hello2"
+        message:"hello3"
     }
 }
 }
