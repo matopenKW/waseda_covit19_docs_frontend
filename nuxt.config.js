@@ -52,7 +52,4 @@ export default {
   axios: {
     baseURL: 'http://localhost:8080/'
   },
-  proxy: {
-    '/api/v1': '/'
-  },
 }
