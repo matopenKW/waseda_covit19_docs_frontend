@@ -50,6 +50,6 @@ export default {
    * axios
    */
   axios: {
-    baseURL: 'http://localhost:8080/'
+    baseURL: 'https://waseda-covite19-docs.herokuapp.com/'
   },
 }
