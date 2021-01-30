@@ -26,6 +26,7 @@ export default {
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
     '~/plugins/firebase.js',
+    '~/plugins/cookies-to-state.js',
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -38,6 +39,7 @@ export default {
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
     '@nuxtjs/axios',
+    'cookie-universal-nuxt',
   ],
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
@@ -50,6 +52,13 @@ export default {
    * axios
    */
   axios: {
-    baseURL: 'https://waseda-covite19-docs.herokuapp.com/'
+    proxy: true,
+    prefix: '/api/v1',
   },
+  proxy: {
+    '/api/v1/': {
+      //target: 'https://waseda-covite19-docs.herokuapp.com/'
+      target: 'http://localhost:8080/'
+    }
+  }
 }

@@ -27,7 +27,7 @@
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="d-lg-inline text-gray-600 small">{{ $store.state.user.email }}</span>
+                <span class="d-lg-inline text-gray-600 small">{{ $cookies.get('jwt') }}</span>
               </a>
             </li>
 
@@ -101,11 +101,11 @@ export default {
       }
     ]
   },
-  middleware ({store, redirect }){
-      if (!store.state.user.login) {
-        return redirect('/')
-      }
-  },
+  // middleware ({store, redirect }){
+  //     if (!store.state.user.login) {
+  //       return redirect('/')
+  //     }
+  // },
   components: {
     Sidebar: () => import ('~/components/Sidebar.vue'),
   },
