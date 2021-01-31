@@ -67,7 +67,11 @@ export default {
       async login(){
         firebase.auth().signInWithEmailAndPassword(this.email, this.password)
         .then(function(user) {
-            window.location.href = '/mock2'
+            const token = user.getIdToken()
+            alert(token)
+            this.$cookies.set('jwt', token)
+            commit('mutateToken', token)
+            this.app.router.push('/mock2')
           })
         .catch(function(error){
           var errorCode = error.code;
