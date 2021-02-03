@@ -61,6 +61,9 @@
     </div>
 </template>
 
+
+
+ <!-- クリックしたときの動き -->
 <script>
 
 export default {
@@ -74,6 +77,7 @@ export default {
             ],
         }
     },
+    
     methods: {
         async addRoute(){
             this.routes.forEach(element => {
@@ -92,6 +96,7 @@ export default {
             var route = this.routes[index]
             route.newRow = false
             route.ro = true
+            window.alert('更新しました！');
         },
         async updateRoute(index){
             this.routes[index].ro = false
