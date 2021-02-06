@@ -12,7 +12,7 @@ export const actions = {
         const token = await res.user.getIdToken()
         this.$cookies.set('jwt', token)
         commit('mutateToken', token)
-        this.app.router.push('/')
+        this.app.router.push('/mock2')
     },
     async login({commit, dispatch}, payload){
         firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
@@ -26,22 +26,22 @@ export const actions = {
             var errorMessage = error.message;
   
             if (errorCode === 'auth/invalid-email') {
-            alert('メールアドレスの形式が不正です。');
+                alert('メールアドレスの形式が不正です。');
   
             } else if (errorCode === 'auth/wrong-password') {
-            alert('パスワードが間違っている又は不正な形式です。');
+                alert('パスワードが間違っている又は不正な形式です。');
   
             } else if (errorCode === 'auth/user-not-found') {
-            alert('存在しないユーザー又は削除された可能性があります。');
+                alert('存在しないユーザー又は削除された可能性があります。');
   
             } else if (errorCode === 'auth/email-already-in-use'){
-            alert('既に登録してあるメールアドレスです。');
+                alert('既に登録してあるメールアドレスです。');
   
             } else if (errorCode === 'auth/weak-password') {
-            alert('パスワードは６桁以上で登録してください。');
+                alert('パスワードは６桁以上で登録してください。');
   
             } else {
-            alert(errorMessage);
+                alert(errorMessage);
             }
             console.log(error);
           });
@@ -52,7 +52,7 @@ export const actions = {
 }
 
 export const mutations = {
-    mutataToken(state, payload) {
+    mutateToken(state, payload) {
         state.token = payload
     },
 }
