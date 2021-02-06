@@ -70,7 +70,7 @@ export default {
   },
   methods: {
     async top(){
-      this.$router.push('/mock2')
+      this.$router.push('/wasephil')
     },
     async logout(){
       try{
