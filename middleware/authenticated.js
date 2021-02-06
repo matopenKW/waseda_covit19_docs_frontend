@@ -1,8 +1,8 @@
 import firebase from '~/plugins/firebase'
 
 export default function ({ store, redirect }) {
-    const user = store.state.user
-    if (!user){
+    const token = store.state.token
+    if (!token){
         redirect("/")
     }
     // firebase.auth().onAuthStateChanged((user) => {
