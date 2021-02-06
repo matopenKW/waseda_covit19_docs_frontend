@@ -69,7 +69,7 @@ export default {
         var res = await firebase.auth().signInWithEmailAndPassword(this.email, this.password)
         var idToken = await res.user.getIdToken()
         this.$cookies.set('jwt', idToken)
-        this.$router.push('/mock2')
+        this.$router.push('/wasephil')
 
       } catch(e){
         if (e.code === 'auth/invalid-email') {

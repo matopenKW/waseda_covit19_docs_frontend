@@ -107,20 +107,20 @@
 export default {
     methods: {
       async practice(){
-        this.$router.push('/mock2/practice')
+        this.$router.push('/wasephil/practice')
       },
       async route(){
-        this.$router.push('/mock2/route')
+        this.$router.push('/wasephil/route')
       },
       async history(){
-        this.$router.push('/mock2/history')
+        this.$router.push('/wasephil/history')
       },
       async admin(){
-        this.$router.push('/mock2/admin')
+        this.$router.push('/wasephil/admin')
       },
       async contact(){
       alert(this.$cookies.get('article01'))
-      //  this.$router.push('/mock2/contact')
+      //  this.$router.push('/wasephil/contact')
       },
       async test(){
         this.$cookies.set('article01', 'test message')
