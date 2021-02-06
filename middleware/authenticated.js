@@ -1,7 +1,8 @@
 import firebase from '~/plugins/firebase'
 
 export default function ({ store, redirect }) {
-    const token = store.state.token
+    const token = this.$cookies.get('jwt')
+    alert(token)
     if (!token){
         redirect("/")
     }
