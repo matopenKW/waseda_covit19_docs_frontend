@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import firebase from '@/plugins/firebase';
+import firebase from "~/plugins/firebase";
 
 export default {
   head: {
@@ -64,12 +64,7 @@ export default {
       }
     ]
   },
-  middleware:{
-    var token = this.$cookies.get('jwt')
-    if (!token) {
-      return redirect('/')
-    }
-  },
+  middleware: "authenticated",
   components: {
     Sidebar: () => import ('~/components/Sidebar.vue'),
   },
@@ -78,17 +73,18 @@ export default {
       this.$router.push('/mock2')
     },
     async logout(){
-      this.$cookies.remove('jwt')
-      this.$router.push('/')
+      try{
+        await firebase.auth().signOut()
+        alert('ログアウトしました。')
+
+        this.$cookies.remove('jwt')
+        this.$router.push('/')
+      }catch(error){
+        alert(error.message)
+      }
     },
   },
   mounted: function(){
-
-    // if (this.$store.getters['user'].login){
-    //   alert('ログイン')
-    // } else {
-    //   alert('未ログイン')
-    // }
   }
 }
 </script>
