@@ -56,48 +56,42 @@ import firebase from 'firebase/app';
 export default {
   layout ({ store }) {
       return 'login'
-    },
-    data: function(){
-        return {
-        email: "",
-        password: "",
-      }
-    },
-    methods: {
-      async login(){
-        try{
-          var res = await firebase.auth().signInWithEmailAndPassword(this.email, this.password)
-          var idToken = await res.user.getIdToken()
-          this.$cookies.set('jwt', idToken)
-          this.$router.push('/mock2')
-
-        } catch(e){
-          if (e.code === 'auth/invalid-email') {
-            alert('メールアドレスの形式が不正です。');
-
-          } else if (e.code === 'auth/wrong-password') {
-            alert('パスワードが間違っている又は不正な形式です。');
-
-          } else if (e.code === 'auth/user-not-found') {
-            alert('存在しないユーザー又は削除された可能性があります。');
-
-          } else if (e.code === 'auth/email-already-in-use'){
-            alert('既に登録してあるメールアドレスです。');
-
-          } else if (e.code === 'auth/weak-password') {
-            alert('パスワードは６桁以上で登録してください。');
-
-          } else {
-            alert(e.message);
-          }
-          console.log(e);
-        }
-      },
-      async login2() {
-        this.$store.dispatch('login', {email: this.email, password: this.password})
-       // if (this.$store.getters['user'].login) {
+  },
+  data: function(){
+      return {
+      email: "",
+      password: "",
+    }
+  },
+  methods: {
+    async login(){
+      try{
+        var res = await firebase.auth().signInWithEmailAndPassword(this.email, this.password)
+        var idToken = await res.user.getIdToken()
+        this.$cookies.set('jwt', idToken)
         this.$router.push('/mock2')
-      //}
+
+      } catch(e){
+        if (e.code === 'auth/invalid-email') {
+          alert('メールアドレスの形式が不正です。');
+
+        } else if (e.code === 'auth/wrong-password') {
+          alert('パスワードが間違っている又は不正な形式です。');
+
+        } else if (e.code === 'auth/user-not-found') {
+          alert('存在しないユーザー又は削除された可能性があります。');
+
+        } else if (e.code === 'auth/email-already-in-use'){
+          alert('既に登録してあるメールアドレスです。');
+
+        } else if (e.code === 'auth/weak-password') {
+          alert('パスワードは６桁以上で登録してください。');
+
+        } else {
+          alert(e.message);
+        }
+        console.log(e);
+      }
     }
   },
 }
