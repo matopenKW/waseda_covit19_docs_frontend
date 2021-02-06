@@ -156,11 +156,9 @@
           params.append('bot-field', this.botField);
         }
         this.$axios
-        .$post('/', params)
-        .then(() => {
-          this.completeMessage = 'お問い合わせを送信しました！';
-          this.resetForm();
-          this.isSubmit  = true;
+        .$get('/api/v1/hello_world')
+        .then((res) => {
+          alert(res.Message)
         })
         .catch(err => {
           this.completeMessage = 'お問い合わせの送信が失敗しました';

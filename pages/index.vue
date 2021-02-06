@@ -29,7 +29,7 @@
                         <label class="custom-control-label" for="customCheck">Remember Me</label>
                       </div>
                     </div> -->
-                    <a href="javascript:void(0);" @click="login2" class="btn btn-primary btn-user btn-block">
+                    <a href="javascript:void(0);" @click="login" class="btn btn-primary btn-user btn-block">
                       Login
                     </a>
                   </form>
@@ -56,49 +56,42 @@ import firebase from 'firebase/app';
 export default {
   layout ({ store }) {
       return 'login'
-    },
-    data: function(){
-        return {
-        email: "",
-        password: "",
-      }
-    },
-    methods: {
-      async login(){
-        firebase.auth().signInWithEmailAndPassword(this.email, this.password)
-        .then(function(user) {
-            window.location.href = '/mock2'
-          })
-        .catch(function(error){
-          var errorCode = error.code;
-          var errorMessage = error.message;
+  },
+  data: function(){
+      return {
+      email: "",
+      password: "",
+    }
+  },
+  methods: {
+    async login(){
+      try{
+        var res = await firebase.auth().signInWithEmailAndPassword(this.email, this.password)
+        var idToken = await res.user.getIdToken()
+        this.$cookies.set('jwt', idToken)
+        this.$router.push('/wasephil')
 
-          if (errorCode === 'auth/invalid-email') {
+      } catch(e){
+        if (e.code === 'auth/invalid-email') {
           alert('メールアドレスの形式が不正です。');
 
-          } else if (errorCode === 'auth/wrong-password') {
+        } else if (e.code === 'auth/wrong-password') {
           alert('パスワードが間違っている又は不正な形式です。');
 
-          } else if (errorCode === 'auth/user-not-found') {
+        } else if (e.code === 'auth/user-not-found') {
           alert('存在しないユーザー又は削除された可能性があります。');
 
-          } else if (errorCode === 'auth/email-already-in-use'){
+        } else if (e.code === 'auth/email-already-in-use'){
           alert('既に登録してあるメールアドレスです。');
 
-          } else if (errorCode === 'auth/weak-password') {
+        } else if (e.code === 'auth/weak-password') {
           alert('パスワードは６桁以上で登録してください。');
 
-          } else {
-          alert(errorMessage);
-          }
-          console.log(error);
-        });
-      },
-      async login2() {
-        this.$store.dispatch('login', {email: this.email, password: this.password})
-       // if (this.$store.getters['user'].login) {
-        this.$router.push('/mock2')
-      //}
+        } else {
+          alert(e.message);
+        }
+        console.log(e);
+      }
     }
   },
 }

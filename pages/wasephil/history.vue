@@ -70,7 +70,7 @@ export default {
         },
         async clickPractice(monthIdx, index){
             var month = this.months[monthIdx]
-            window.location.href = '/mock2/practice'
+            window.location.href = '/wasephil/practice'
         }
     },
 }

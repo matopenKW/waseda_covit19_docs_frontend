@@ -37,6 +37,8 @@ export default {
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
+    '@nuxtjs/axios',
+    'cookie-universal-nuxt',
   ],
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
@@ -45,4 +47,17 @@ export default {
 
   router: {
   },
+  /**
+   * axios
+   */
+  axios: {
+    proxy: true,
+    prefix: '/api/v1',
+  },
+  proxy: {
+    '/api/v1/': {
+      //target: 'https://waseda-covite19-docs.herokuapp.com/'
+      target: 'http://localhost:8080/'
+    }
+  }
 }
