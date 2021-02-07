@@ -79,11 +79,13 @@ export default {
     },
     
     methods: {
+        //elment.でドキュメントの中にある要素オブジェクトをとって来れる。・forEach文とコールバック関数
         async addRoute(){
             this.routes.forEach(element => {
                 element.detailShow = false
             });
             this.routes.unshift({newRow: true, name:"", going: "", return: "",  detailShow: true, ro: false})
+        //unshift()配列の先頭に要素を加える、
         },
         async openDetail(index){
             var f = this.routes[index].detailShow
