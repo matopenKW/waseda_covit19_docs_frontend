@@ -55,7 +55,7 @@
           </div>
         </div>
       </div>
-<div class="col-xl-3 col-md-6 mb-4" @click="contact">
+      <div class="col-xl-3 col-md-6 mb-4" @click="contact">
         <div class="card border-left-info shadow h-100 py-2">
           <div class="card-body">
             <div class="row no-gutters align-items-center">
@@ -83,6 +83,22 @@
           </div>
         </div>
       </div>
+
+      <div class="col-xl-3 col-md-6 mb-4" @click="test">
+        <div class="card border-left-danger shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="h5 mb-0 font-weight-bold text-gray-800">Test</div>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-user fa-2x text-gray-300"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -91,19 +107,24 @@
 export default {
     methods: {
       async practice(){
-        this.$router.push('/mock2/practice')
+        this.$router.push('/wasephil/practice')
       },
       async route(){
-        this.$router.push('/mock2/route')
+        this.$router.push('/wasephil/route')
       },
       async history(){
-        this.$router.push('/mock2/history')
+        this.$router.push('/wasephil/history')
       },
       async admin(){
-        this.$router.push('/mock2/admin')
+        this.$router.push('/wasephil/admin')
       },
       async contact(){
-        this.$router.push('/mock2/contact')
+      alert(this.$cookies.get('article01'))
+      //  this.$router.push('/wasephil/contact')
+      },
+      async test(){
+        this.$cookies.set('article01', 'test message')
+        alert(this.$cookies.get('jwt'))
       }
     },
     mounted: function(){

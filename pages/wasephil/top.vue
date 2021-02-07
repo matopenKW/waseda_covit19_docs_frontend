@@ -283,8 +283,5 @@
 
 <script>
 export default {
-    layout ({ store }) {
-        return 'mock2'
-    },
 }
 </script>
