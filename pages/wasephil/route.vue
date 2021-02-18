@@ -137,7 +137,6 @@ export default {
   },
 
   methods: {
-    //elment.でドキュメントの中にある要素オブジェクトをとって来れる。・forEach文とコールバック関数
     async addRoute() {
       this.routes.forEach((element) => {
         element.detailShow = false;
@@ -150,7 +149,6 @@ export default {
         detailShow: true,
         ro: false,
       });
-      //unshift()配列の先頭に要素を加える、
     },
     async openDetail(index) {
       var f = this.routes[index].detailShow;
@@ -160,69 +158,85 @@ export default {
       this.routes[index].detailShow = !f;
     },
     async registRoute(index) {
+      var jwt = this.$cookies.get('jwt')
       var route = this.routes[index];
-      var r = {}
-      r.Name = route.name
-      r.OutwardTrip = route.going
-      r.ReturnTrip = route.return
-      this.$axios.$put('/put_route', {
-      params: r
-    })
-    
-    route.newRow = false
-    route.ro = true
-    },
+      var r = {
+        name : route.name,
+        outward_trip : route.going,
+        return_trip : route.return
+      }
+      try {
+        await this.$axios.$put('/put_route', r, {
+          headers: {Authorization: `Bearer ${jwt}`}
+        })
 
-//「編集」ボタンをおした時に、サーバー側に指定のパラメータを返している→編集画面には遷移しない？
+        route.newRow = false
+        route.ro = true
+      } catch(e){
+        console.log(e)
+        alert(e.message)
+      }
+    },
     async updateRoute(index) {
+      var jwt = this.$cookies.get('jwt')
       var route = this.routes[index];
-      var r = {}
-      r.Name = route.name
-      r.OutwardTrip = route.going
-      r.ReturnTrip = route.return
-      this.$axios.$put('/put_route', {
-      params: r
-    })
-    
-    route.newRow = false
-    route.ro = true
-    },
+      var r = {
+        route_id : route.id,
+        name : route.name,
+        outward_trip : route.going,
+        return_trip : route.return
+      }
+      try {
+        await this.$axios.$put('/put_route', r, {
+          headers: {Authorization: `Bearer ${jwt}`}
+        })
 
+        route.newRow = false
+        route.ro = true
+      } catch(e){
+        console.log(e)
+        alert(e.message)
+      }
+    },
     async deleteRoute(index) {
+      var jwt = this.$cookies.get('jwt')
       var route = this.routes[index];
-      var r = {}
-      r.Name = route.name
-      r.OutwardTrip = route.going
-      r.ReturnTrip = route.return
-      this.$axios.$put('/put_route', {
-      params: r
-    })
-    
-    route.newRow = false
-    route.ro = true
-      //this.routes[index].ro = true
-    }
+      try {
+        await this.$axios.$delete('/delete_route', {
+          headers: {Authorization: `Bearer ${jwt}`}
+        })
+
+        route.newRow = false
+        route.ro = true
+      } catch(e){
+        console.log(e)
+        alert(e.message)
+      }
+    },
   },
 
   mounted: function () {
     this.routes = [];
-    this.$axios
-      .$get("/get_routes")
-      .then((res) => {
-        var routes = res.Routes;
-        routes.forEach((route) => {
-          var r = {};
-          r.id = route.ID;
-          r.name = route.Name;
-          r.going = route.OutwardTrip;
-          r.return = route.ReturnTrip;
-          this.routes.push(r);
-        });
-        console.log(res.Routes);
-      })
-      .catch((err) => {
-        alert(err.message);
+    this.$axios.$get("/get_routes", {
+      headers: {Authorization: `Bearer ${this.$cookies.get('jwt')}`}
+    })
+    .then((res) => {
+      var routes = res.Routes;
+      routes.forEach((route) => {
+        var r = {
+          id : route.id,
+          name : route.Name,
+          going : route.OutwardTrip,
+          return : route.ReturnTrip
+        };
+        this.routes.push(r);
       });
+      console.log(res.Routes);
+    })
+    .catch((err) => {
+      alert(err.message);
+    });
   },
-};
+}
+
 </script>
