@@ -35,7 +35,7 @@
                 <hr />
                 <a
                   href="javascript:void(0);"
-                  @click="updateRoute(index)"
+                  @click="edit(index)"
                   class="btn btn-success btn-icon-split"
                 >
                   <span class="icon text-white-50">
@@ -61,7 +61,7 @@
                 <hr />
                 <a
                   href="javascript:void(0);"
-                  @click="registRoute(index)"
+                  @click="updateRoute(index)"
                   class="btn btn-primary btn-icon-split"
                   v-show="!route.newRow"
                 >
@@ -146,7 +146,7 @@ export default {
         name: "",
         going: "",
         return: "",
-        detailShow: true,
+        detailShow: false,
         ro: false,
       });
     },
@@ -166,16 +166,22 @@ export default {
         return_trip : route.return
       }
       try {
-        await this.$axios.$put('/put_route', r, {
+        var res = await this.$axios.$put('/put_route', r, {
           headers: {Authorization: `Bearer ${jwt}`}
         })
 
+        route.id = res.Route.ID
         route.newRow = false
         route.ro = true
+        alert('登録しました。')
       } catch(e){
         console.log(e)
         alert(e.message)
       }
+    },
+    async edit(index){
+      var route = this.routes[index];
+      route.ro = false
     },
     async updateRoute(index) {
       var jwt = this.$cookies.get('jwt')
@@ -193,6 +199,7 @@ export default {
 
         route.newRow = false
         route.ro = true
+        alert('更新しました。')
       } catch(e){
         console.log(e)
         alert(e.message)
@@ -201,13 +208,17 @@ export default {
     async deleteRoute(index) {
       var jwt = this.$cookies.get('jwt')
       var route = this.routes[index];
+      var r = {
+        route_id : route.id
+      }
       try {
         await this.$axios.$delete('/delete_route', {
-          headers: {Authorization: `Bearer ${jwt}`}
+          headers: {Authorization: `Bearer ${jwt}`},
+          data: {route_id : route.id}
         })
 
-        route.newRow = false
-        route.ro = true
+        this.routes.splice(index, 1)
+        alert('削除しました。')
       } catch(e){
         console.log(e)
         alert(e.message)
@@ -224,10 +235,12 @@ export default {
       var routes = res.Routes;
       routes.forEach((route) => {
         var r = {
-          id : route.id,
+          id : route.ID,
           name : route.Name,
           going : route.OutwardTrip,
-          return : route.ReturnTrip
+          return : route.ReturnTrip,
+          detailShow: false,
+          ro: true
         };
         this.routes.push(r);
       });
