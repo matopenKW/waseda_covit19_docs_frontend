@@ -48,7 +48,7 @@
                     </div>
                     <div class="card-body">
                         <select>
-                            <option>会場を選択シテクダサイ</option>
+                            <option>練習を選択シテクダサイ</option>
                             <option>tutti</option>
                             <option>弦練</option>
                             <option>管打練</option>
@@ -67,31 +67,20 @@
             <div class="col-lg-6">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">会場</h6>
-                    </div>
-                    <div class="card-body">
-                        <select>
-                            <option>経路マスタの値を参照</option>
-                            <option>学生会館</option>
-                            <option>奉仕園</option>
-                            <option>雑司が谷地域文化創造館</option>
-                            <option>板橋区立グリーンカレッジホール</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">経路</h6>
                     </div>
+                    <div class="card-body">
+                        <select v-model="selectedRouteId" @change="selectRoute">
+                            <option disabled value="">経路を選択してください</option>
+                            <option v-for="route in routes" :key="route.id" :value="route.id">{{ route.name }}</option>
+                        </select>
+                    </div>
+
                     <div class="card-body" v-show="routeDecision">
                         <p>{{ outwardTrip }}</p>
                         <hr/>
                         <p>{{ returnTrip }}</p>
-                        <a href="javascript:void(0);" @click="chageRoute" class="btn btn-info btn-icon-split">
+                        <a href="javascript:void(0);" @click="changeRoute" class="btn btn-info btn-icon-split">
                             <span class="icon text-white-50">
                             <i class="fas fa-check"></i>
                             </span>
@@ -121,7 +110,7 @@
                         <input type="checkbox" id="contact" @click="checkContact"> １人以上と接触した
                     </div>
                     <div class="card-body" v-show="contact">
-                        <input type="text" class="w-25">人
+                        <input type="number" class="w-25" v-model="contactPerson1">人
                         <p>※概要（接触者氏名・内容）を記入してください。</p>
                         <textarea class="w-100" v-model="contactAbstract1" placeholder="ex.矢次沙妃：パーテーション設置の際に何度か触れた。"></textarea>
                     </div>
@@ -129,7 +118,7 @@
                         <input type="checkbox" id="contactTime" @click="checkContactTime"> 対面で互いに手を伸ばしたら届く距離（１ｍ程度以内）で15分以上接触があった人
                     </div>
                     <div class="card-body" v-show="contactTime">
-                        <input type="text" class="w-25">人
+                        <input type="number" class="w-25" v-model="contactPerson2">人
                         <p>※概要（接触者氏名・内容）を記入してください。</p>
                         <textarea class="w-100" v-model="contactAbstract2" placeholder="ex.吉見果歩：往復の電車で会話をした。"></textarea>
                     </div>
@@ -157,19 +146,33 @@ export default {
             datetime: '',
             startTime: '09:00',
             endTime: '18:00',
-            outwardTrip : '十条台ふれあい館',
-            returnTrip : '自宅―（徒歩）―高田馬場駅―（JR山手線）―池袋駅―（JR埼京線）―十条駅―（徒歩）―十条台ふれあい館',
-            practice_section: 'aaa',
-            routeDecision : true,
-            routeChage : false,
+            outwardTrip : '※経路を選択してください※',
+            returnTrip : '',
+            practice_section_id: 1,
+            practice_contents_id: 1,
             contact : false,
             contactTime : false,
-            contactAbstract1:"",
-            contactAbstract2:"",
+            contactPerson1: '',
+            contactAbstract1: "",
+            contactPerson2: '',
+            contactAbstract2: "",
+            selectedRouteId: '',
+            routes: [],
+            routeDecision : true,
+            routeChage : false,
         }
     },
     methods: {
-        async chageRoute(){
+        async selectRoute(){
+            var routes = this.routes;
+            routes.forEach(route => {
+                if (route.id == this.selectedRouteId){
+                    this.outwardTrip = route.outwardTrip
+                    this.returnTrip = route.returnTrip
+                }
+            })
+        },
+        async changeRoute(){
             this.routeDecision = false
             this.routeChage = true
         },
@@ -184,39 +187,39 @@ export default {
             this.contactTime = document.form.contactTime.checked
         },
         async register(){
-            alert('aaaaa')
-
+            if (this.selectedRouteId == ''){
+                alert('経路を選択してください。')
+                return
+            }
+            
             var jwt = this.$cookies.get('jwt')
             var p = {
-                datetime: this.datetime,
-                start_time: this.startTime,
-                end_time: this.endTime,
-                practice_section: 1,
-                practice_contents: 1,
-                venue_id: 1,
-                route_id: 1,
+                datetime: this.datetime.replaceAll('-', ''),
+                start_time: this.startTime.replace(':', ''),
+                end_time: this.endTime.replace(':', ''),
+                practice_section_id: 1,
+                practice_contents_id: 1,
                 outward_trip: this.outwardTrip,
                 return_trip: this.returnTrip,
-                contact_person1: false,
+                contact_person1: this.contactPerson1,
                 contact_abstract1: this.contactAbstract1,
-                contact_person2: false,
+                contact_person2: this.contactPerson2,
                 contact_abstract2: this.contactAbstract2,
             }
             console.log(p)
-            // try {
-            //     var res = await this.$axios.$put('/put_route', p, {
-            //         headers: {Authorization: `Bearer ${jwt}`}
-            //     })
+            try {
+                var res = await this.$axios.$put('/put_activity_program', p, {
+                    headers: {Authorization: `Bearer ${jwt}`}
+                })
 
-            //     route.id = res.Route.ID
-            //     route.newRow = false
-            //     route.ro = true
-            //     alert('登録しました。')
-            // } catch(e){
-            //     console.log(e)
-            //     alert(e.message)
-            // }
-        }
+                alert('登録しました。')
+
+                this.$router.push('/wasephil')
+            } catch(e){
+                console.log(e)
+                alert(e.message)
+            }
+        },
     },
     mounted: function(){
         var today = new Date();
@@ -226,6 +229,26 @@ export default {
         var dd = ('0'+today.getDate()).slice(-2);
         this.datetime = yyyy+'-'+mm+'-'+dd;
 
+        var jwt = this.$cookies.get('jwt')
+        this.$axios.$get("/get_routes", {
+            headers: {Authorization: `Bearer ${this.$cookies.get('jwt')}`}
+        })
+        .then((res) => {
+            var routes = res.Routes;
+            routes.forEach((route) => {
+                var r = {
+                    id : route.ID,
+                    name : route.Name,
+                    outwardTrip : route.OutwardTrip,
+                    returnTrip : route.ReturnTrip,
+                };
+                this.routes.push(r);
+            });
+            console.log(this.routes);
+        })
+        .catch((err) => {
+            alert(err.message);
+        });
     },
 }
 </script>

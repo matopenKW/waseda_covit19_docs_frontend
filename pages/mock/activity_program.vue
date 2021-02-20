@@ -1,5 +1,5 @@
 <template>
-    <div id="practice" class="container-fluid">
+    <div id="activity_program" class="container-fluid">
         <form name="form">
         <div class="row">
             <div class="col-lg-6">
