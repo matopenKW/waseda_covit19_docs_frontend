@@ -51,12 +51,7 @@ export default {
    * axios
    */
   axios: {
-    proxy: true,
-    prefix: '/api/v1',
+    //baseURL: "https://waseda-covite19-docs.herokuapp.com/api/v1"
+    baseURL: "http://localhost:8080/api/v1"
   },
-  proxy: {
-    '/api/v1/': {
-      target: 'https://waseda-covite19-docs.herokuapp.com/'
-    }
-  }
 }
