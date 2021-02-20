@@ -30,9 +30,9 @@
 </template>
 
 <script>
-import practice from '../mock/practice.vue'
+import activity_program from '../mock/activity_program.vue'
 export default {
-    components: { practice },
+    components: { activity_program },
     layout ({ store }) {
       return 'mock'
     },
