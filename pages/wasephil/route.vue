@@ -101,34 +101,10 @@ export default {
     return {
       routes: [
         {
-          id: 1,
-          name: "学生会館",
-          going: "町田→新宿",
-          return: "新宿→町田",
-          detailShow: false,
-          ro: true,
-        },
-        {
-          id: 2,
-          name: "奉仕園",
-          going: "町田→新宿",
-          return: "新宿→町田",
-          detailShow: false,
-          ro: true,
-        },
-        {
-          id: 3,
-          name: "雑司が谷地域文化創造館",
-          going: "町田→新宿",
-          return: "新宿→町田",
-          detailShow: false,
-          ro: true,
-        },
-        {
-          id: 4,
-          name: "板橋区立グリーンカレッジホール",
-          going: "町田→新宿",
-          return: "新宿→町田",
+          id: 0,
+          name: "",
+          going: "",
+          return: "",
           detailShow: false,
           ro: true,
         },
