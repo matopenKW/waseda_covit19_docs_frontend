@@ -1,61 +1,131 @@
 <template>
-    <div id="top">
-        <div class="row">
-            <div id="carfare" class="app col-xs-6 col-sm-4 text-center" @click="clickPractice">
-                <div class="title">練習日を入力</div>
-                <div class="icon">
-                    <img src="@/assets/svg/music.svg">
-                </div>
-            </div>
-            <div id="warehouse" class="app col-xs-6 col-sm-4 text-center" @click="clickRoute">
-                    <div class="title">経路を追加</div>
-                    <div class="icon">
-                        <img src="@/assets/svg/train.svg">
-                    </div>
-            </div>
-        </div>
+  <div id="top" class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+      <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
     </div>
+
+    <!-- Content Row -->
+    <div class="row">
+
+      <!-- Earnings (Monthly) Card Example -->
+      <div class="col-xl-3 col-md-6 mb-4" @click="practice">
+        <div class="card border-left-primary shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="h5 mb-0 font-weight-bold text-gray-800">Practice</div>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-music fa-2x text-gray-300"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-3 col-md-6 mb-4" @click="route">
+        <div class="card border-left-success shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="h5 mb-0 font-weight-bold text-gray-800">Route</div>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-subway fa-2x text-gray-300"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-3 col-md-6 mb-4" @click="history">
+        <div class="card border-left-info shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="h5 mb-0 font-weight-bold text-gray-800">History</div>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-user fa-2x text-gray-300"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-md-6 mb-4" @click="contact">
+        <div class="card border-left-info shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="h5 mb-0 font-weight-bold text-gray-800">contact</div>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-user fa-2x text-gray-300"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-md-6 mb-4" @click="admin">
+        <div class="card border-left-danger shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="h5 mb-0 font-weight-bold text-gray-800">Admin</div>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-user fa-2x text-gray-300"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-3 col-md-6 mb-4" @click="test">
+        <div class="card border-left-danger shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="h5 mb-0 font-weight-bold text-gray-800">Test</div>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-user fa-2x text-gray-300"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
-    methods: {
-        async clickPractice(){
-            window.location.href = './practice'
-        },
-        async clickRoute(){
-            window.location.href = './route'
-        }
-    }
+  layout ({ store }) {
+    return 'mock'
+  },
+  methods: {
+    async practice(){
+      this.$router.push('/mock/practice')
+    },
+    async route(){
+      this.$router.push('/mock/route')
+    },
+    async history(){
+      this.$router.push('/mock/history')
+    },
+    async admin(){
+      this.$router.push('/mock/admin')
+    },
+    async contact(){
+    //  this.$router.push('/wasephil/contact')
+    },
+  },
+  mounted: function(){
+  },
 }
 </script>
-
-<style>
-.row {
-    margin: 0 3vh;
-}
-.app {
-    margin: 0 1vw;
-    margin-bottom: 5.5vh;
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.22);
-    cursor: pointer;
-}
-
-.app .title {
-    font-size: 2.5vh;
-    margin: 2vh 0;
-}
-
-.app .icon {
-    height: 40%;
-    vertical-align: middle;
-    display: flex;
-    align-items: center;
-	justify-content: center;
-
-}
-
-.app .icon img {
-    height: 10vh;
-}
-</style>
