@@ -12,6 +12,8 @@
 
 <script>
 export default {
-    
+    layout ({ store }) {
+      return 'mock'
+    },
 }
 </script>

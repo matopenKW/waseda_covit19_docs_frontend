@@ -56,8 +56,7 @@ export default {
   },
   proxy: {
     '/api/v1/': {
-      //target: 'https://waseda-covite19-docs.herokuapp.com/'
-      target: 'http://localhost:8080/'
+      target: 'https://waseda-covite19-docs.herokuapp.com/'
     }
   }
 }

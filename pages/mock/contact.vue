@@ -117,6 +117,9 @@
 <!-- 以下コピペ　全く理解してません -->
 <script>
   export default {
+    layout ({ store }) {
+      return 'mock'
+    },
     data() {
       return {
         username        : '',

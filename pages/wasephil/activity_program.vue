@@ -1,5 +1,5 @@
 <template>
-    <div id="practice" class="container-fluid">
+    <div id="activity_program" class="container-fluid">
         <form name="form">
         <div class="row">
             <div class="col-lg-6">
@@ -17,23 +17,10 @@
             <div class="col-lg-6">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">氏名</h6>
-                    </div>
-                    <div class="card-body">
-                        <p>【スペースなしで】記入してください。</p>
-                        <input type="text" placeholder="芦田里紗">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">日時</h6>
                     </div>
                     <div class="card-body">
-                        <div class="mb-3"><input type="date" v-model="practiceDate"></div>
+                        <div class="mb-3"><input type="date" v-model="datetime"></div>
                         <div><input type="time" v-model="startTime"> 〜 <input type="time" v-model="endTime"></div>
                     </div>
                 </div>
@@ -61,7 +48,7 @@
                     </div>
                     <div class="card-body">
                         <select>
-                            <option>会場を選択シテクダサイ</option>
+                            <option>練習を選択シテクダサイ</option>
                             <option>tutti</option>
                             <option>弦練</option>
                             <option>管打練</option>
@@ -80,29 +67,20 @@
             <div class="col-lg-6">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">会場</h6>
-                    </div>
-                    <div class="card-body">
-                        <select>
-                            <option>経路マスタの値を参照</option>
-                            <option>学生会館</option>
-                            <option>奉仕園</option>
-                            <option>雑司が谷地域文化創造館</option>
-                            <option>板橋区立グリーンカレッジホール</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">経路</h6>
                     </div>
+                    <div class="card-body">
+                        <select v-model="selectedRouteId" @change="selectRoute">
+                            <option disabled value="">経路を選択してください</option>
+                            <option v-for="route in routes" :key="route.id" :value="route.id">{{ route.name }}</option>
+                        </select>
+                    </div>
+
                     <div class="card-body" v-show="routeDecision">
-                        <p>{{ route }}</p>
-                        <a href="javascript:void(0);" @click="chageRoute" class="btn btn-info btn-icon-split">
+                        <p>{{ outwardTrip }}</p>
+                        <hr/>
+                        <p>{{ returnTrip }}</p>
+                        <a href="javascript:void(0);" @click="changeRoute" class="btn btn-info btn-icon-split">
                             <span class="icon text-white-50">
                             <i class="fas fa-check"></i>
                             </span>
@@ -110,7 +88,8 @@
                         </a>
                     </div>
                     <div class="card-body" v-show="routeChage">
-                        <textarea class="w-100" v-model="route"></textarea>
+                        <textarea class="w-100" v-model="outwardTrip"></textarea>
+                        <textarea class="w-100" v-model="returnTrip"></textarea>
                         <a href="javascript:void(0);" @click="decisionRoute" class="btn btn-success btn-icon-split">
                             <span class="icon text-white-50">
                             <i class="fas fa-check"></i>
@@ -131,21 +110,31 @@
                         <input type="checkbox" id="contact" @click="checkContact"> １人以上と接触した
                     </div>
                     <div class="card-body" v-show="contact">
-                        <input type="text" class="w-25">人
+                        <input type="number" class="w-25" v-model="contactPerson1">人
                         <p>※概要（接触者氏名・内容）を記入してください。</p>
-                        <textarea class="w-100" placeholder="ex.矢次沙妃：パーテーション設置の際に何度か触れた。"></textarea>
+                        <textarea class="w-100" v-model="contactAbstract1" placeholder="ex.矢次沙妃：パーテーション設置の際に何度か触れた。"></textarea>
                     </div>
                     <div class="card-body">
                         <input type="checkbox" id="contactTime" @click="checkContactTime"> 対面で互いに手を伸ばしたら届く距離（１ｍ程度以内）で15分以上接触があった人
                     </div>
                     <div class="card-body" v-show="contactTime">
-                        <input type="text" class="w-25">人
+                        <input type="number" class="w-25" v-model="contactPerson2">人
                         <p>※概要（接触者氏名・内容）を記入してください。</p>
-                        <textarea class="w-100" placeholder="ex.吉見果歩：往復の電車で会話をした。"></textarea>
+                        <textarea class="w-100" v-model="contactAbstract2" placeholder="ex.吉見果歩：往復の電車で会話をした。"></textarea>
                     </div>
                 </div>
             </div>
         </div>
+            <a
+                href="javascript:void(0);"
+                @click="register()"
+                class="btn btn-primary btn-icon-split"
+            >
+                <span class="icon text-white-50">
+                <i class="fas fa-check"></i>
+                </span>
+                <span class="text">登録</span>
+            </a>
         </form>
     </div>
 </template>
@@ -154,18 +143,36 @@
 export default {
     data: function(){
         return {
-            route :"自宅―（徒歩）―高田馬場駅―（JR山手線）―池袋駅―（JR埼京線）―十条駅―（徒歩）―十条台ふれあい館",
-            routeDecision : true,
-            routeChage : false,
-            contact : false,
-            contactTime : false,
-            practiceDate: '',
+            datetime: '',
             startTime: '09:00',
             endTime: '18:00',
+            outwardTrip : '※経路を選択してください※',
+            returnTrip : '',
+            practice_section_id: 1,
+            practice_contents_id: 1,
+            contact : false,
+            contactTime : false,
+            contactPerson1: '',
+            contactAbstract1: "",
+            contactPerson2: '',
+            contactAbstract2: "",
+            selectedRouteId: '',
+            routes: [],
+            routeDecision : true,
+            routeChage : false,
         }
     },
     methods: {
-        async chageRoute(){
+        async selectRoute(){
+            var routes = this.routes;
+            routes.forEach(route => {
+                if (route.id == this.selectedRouteId){
+                    this.outwardTrip = route.outwardTrip
+                    this.returnTrip = route.returnTrip
+                }
+            })
+        },
+        async changeRoute(){
             this.routeDecision = false
             this.routeChage = true
         },
@@ -179,15 +186,69 @@ export default {
         async checkContactTime(){
             this.contactTime = document.form.contactTime.checked
         },
+        async register(){
+            if (this.selectedRouteId == ''){
+                alert('経路を選択してください。')
+                return
+            }
+            
+            var jwt = this.$cookies.get('jwt')
+            var p = {
+                datetime: this.datetime.replaceAll('-', ''),
+                start_time: this.startTime.replace(':', ''),
+                end_time: this.endTime.replace(':', ''),
+                practice_section_id: 1,
+                practice_contents_id: 1,
+                outward_trip: this.outwardTrip,
+                return_trip: this.returnTrip,
+                contact_person1: this.contactPerson1,
+                contact_abstract1: this.contactAbstract1,
+                contact_person2: this.contactPerson2,
+                contact_abstract2: this.contactAbstract2,
+            }
+            console.log(p)
+            try {
+                var res = await this.$axios.$put('/put_activity_program', p, {
+                    headers: {Authorization: `Bearer ${jwt}`}
+                })
+
+                alert('登録しました。')
+
+                this.$router.push('/wasephil')
+            } catch(e){
+                console.log(e)
+                alert(e.message)
+            }
+        },
     },
     mounted: function(){
         var today = new Date();
         today.setDate(today.getDate());
         var yyyy = today.getFullYear();
-        var mm = ("0"+(today.getMonth()+1)).slice(-2);
-        var dd = ("0"+today.getDate()).slice(-2);
-        this.practiceDate = yyyy+'-'+mm+'-'+dd;
+        var mm = ('0'+(today.getMonth()+1)).slice(-2);
+        var dd = ('0'+today.getDate()).slice(-2);
+        this.datetime = yyyy+'-'+mm+'-'+dd;
 
+        var jwt = this.$cookies.get('jwt')
+        this.$axios.$get("/get_routes", {
+            headers: {Authorization: `Bearer ${this.$cookies.get('jwt')}`}
+        })
+        .then((res) => {
+            var routes = res.Routes;
+            routes.forEach((route) => {
+                var r = {
+                    id : route.ID,
+                    name : route.Name,
+                    outwardTrip : route.OutwardTrip,
+                    returnTrip : route.ReturnTrip,
+                };
+                this.routes.push(r);
+            });
+            console.log(this.routes);
+        })
+        .catch((err) => {
+            alert(err.message);
+        });
     },
 }
 </script>
