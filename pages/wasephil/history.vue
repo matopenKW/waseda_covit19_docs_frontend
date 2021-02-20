@@ -50,7 +50,7 @@ export default {
         async clickPractice(monthIdx, index){
             var month = this.months[monthIdx]
             var ap = month.practices[index]
-            this.$router.push('/wasephil/activity_program?id=' + ap.id)
+            this.$router.push('/wasephil/activity_program?seqNo=' + ap.seqNo)
         }
     },
     mounted: function(){
@@ -72,7 +72,7 @@ export default {
                 aps.forEach(ap =>{
                     var datetime = ap.Datetime
                     var app = {
-                        id : ap.ID,
+                        seqNo : ap.SeqNo,
                         date: datetime.substring(0,4) + '/' + datetime.substring(4, 6) + '/' + datetime.substring(6, 8),
                     }
                      m.practices.push(app)

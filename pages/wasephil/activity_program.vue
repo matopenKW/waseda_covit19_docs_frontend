@@ -222,7 +222,7 @@ export default {
         },
     },
     mounted: function(){
-        alert(this.$route.query.id)
+        alert(this.$route.query.seqNo)
 
         var today = new Date();
         today.setDate(today.getDate());
