@@ -97,6 +97,9 @@
 import axios from "axios";
 
 export default {
+  layout ({ store }) {
+    return 'mock'
+  },
   data: function () {
     return {
       routes: [
