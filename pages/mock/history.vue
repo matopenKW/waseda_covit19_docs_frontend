@@ -30,9 +30,12 @@
 </template>
 
 <script>
-import activityProgram from '../wasephil/activity_program.vue'
+import activity_program from '../mock/activity_program.vue'
 export default {
-  components: { activityProgram },
+    components: { activity_program },
+    layout ({ store }) {
+      return 'mock'
+    },
     data: function(){
         return {
             months: [
