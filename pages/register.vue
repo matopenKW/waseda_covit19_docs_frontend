@@ -63,10 +63,15 @@ export default {
     },
     methods: {
         async register(){
+            if (this.password !== this.repeatPassword){
+                alert('パスワードと確認パスワードが異なっています。')
+                return 
+            }
+
             firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
             .then(() => {
                 console.log('ユーザー作成完了')
-                alert('ユーザー作成完了')
+                alert('ユーザー作成')
             })
             .catch((error) => {
                 console.log('ユーザー作成失敗', error);
