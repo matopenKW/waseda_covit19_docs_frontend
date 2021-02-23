@@ -163,8 +163,8 @@ export default {
             contact : false,
             contactTime : false,
             practiceDate: '',
-            startTime: '09:00',
-            endTime: '18:00',
+            startTime: '18:00',
+            endTime: '21:00',
         }
     },
     methods: {
