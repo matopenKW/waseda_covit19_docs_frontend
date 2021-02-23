@@ -30,12 +30,12 @@
             <div class="col-lg-6">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">区分？？</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">練習区分</h6>
                     </div>
                     <div class="card-body">
-                        <p><input type="radio">レギュラー</p>
-                        <p><input type="radio">新練</p>
-                        <p><input type="radio">卒演</p>
+                        <select>
+                            <option v-for="activity in activities" :key="activity.id" :value="activity.id">{{ activity.name }}</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -44,20 +44,11 @@
             <div class="col-lg-6">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">練習内容</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">活動内容</h6>
                     </div>
                     <div class="card-body">
                         <select>
-                            <option>練習を選択シテクダサイ</option>
-                            <option>tutti</option>
-                            <option>弦練</option>
-                            <option>管打練</option>
-                            <option>パート練</option>
-                            <option>木管練</option>
-                            <option>金管練</option>
-                            <option>トップ練</option>
-                            <option>引き継ぎ</option>
-                            <option>アンサンブル</option>
+                            <option v-for="practice in practices" :key="practice.id" :value="practice.id">{{ practice.name }}</option>
                         </select>
                     </div>
                 </div>
@@ -144,8 +135,8 @@ export default {
     data: function(){
         return {
             datetime: '',
-            startTime: '09:00',
-            endTime: '18:00',
+            startTime: '18:00',
+            endTime: '21:00',
             outwardTrip : '※経路を選択してください※',
             returnTrip : '',
             practice_section_id: 1,
@@ -160,6 +151,22 @@ export default {
             routes: [],
             routeDecision : true,
             routeChage : false,
+            practices:[
+                { id: 1, name: "レギュラー"},
+                { id: 2, name: "卒演"},
+                { id: 3, name: "新練"},
+            ],
+            activities:[
+                { id: 1, name: "tutti"},
+                { id: 2, name: "弦練"},
+                { id: 3, name: "管打練"},
+                { id: 4, name: "パート練"},
+                { id: 5, name: "木管練"},
+                { id: 6, name: "金管練"},
+                { id: 7, name: "トップ練"},
+                { id: 8, name: "引き継ぎ"},
+                { id: 9, name: "アンサンブル"},
+            ],
         }
     },
     methods: {
