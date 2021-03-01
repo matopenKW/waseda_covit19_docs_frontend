@@ -67,16 +67,26 @@ export default {
                 alert('パスワードと確認パスワードが異なっています。')
                 return 
             }
-
-            firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
-            .then(() => {
-                console.log('ユーザー作成完了')
+            try {
+                await firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
                 alert('ユーザー作成')
-            })
-            .catch((error) => {
-                console.log('ユーザー作成失敗', error);
-                alert('ユーザー作成失敗')
-            });
+
+                var res = await firebase.auth().signInWithEmailAndPassword(this.email, this.password)
+
+
+                console.log(res.user.uid)
+                var idToken = await res.user.getIdToken()
+                await this.$axios.$put('/put_user', {
+                    email: this.email,
+                    uid: res.user.uid,
+                }, {
+                    headers: {Authorization: `Bearer ${idToken}`}
+                })
+
+            } catch(e) {
+                alert(e.message)
+                console.log(e)
+            };
         }
     },
 }

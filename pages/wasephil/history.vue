@@ -16,7 +16,7 @@
                                     <div class="card-body border-primary" v-for="(practice, index) in m.practices" :key="practice.date" v-show="m.detailShow">
                                         {{ practice.date }}
                                         <span class="ml-4">
-                                            <a href="javascript:void(0);" @click="clickPractice(monthIdx, index)" class="btn btn-info"><span class="text">編集</span></a>
+                                            <a href="javascript:void(0);" @click="clickPractice(monthIdx, index)" class="btn btn-info"><span class="text">参照</span></a>
                                         </span>
                                     </div>
                                 </div>
@@ -50,13 +50,12 @@ export default {
         async clickPractice(monthIdx, index){
             var month = this.months[monthIdx]
             var ap = month.practices[index]
-            this.$router.push('/wasephil/activity_program?seqNo=' + ap.seqNo)
+            this.$router.push('/wasephil/activity_program_reference?seqNo=' + ap.seqNo)
         }
     },
     mounted: function(){
-        var jwt = this.$cookies.get('jwt')
-        this.$axios.$get("/get_histories", {
-            headers: {Authorization: `Bearer ${this.$cookies.get('jwt')}`}
+        this.$axios.$get(this.$urls.api + "/get_histories", {
+            headers: {Authorization: `Bearer ${this.$store.getters.getToken}`}
         })
         .then((res) => {
             var histories = res.Histories;
