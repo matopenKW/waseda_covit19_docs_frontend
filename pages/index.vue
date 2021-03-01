@@ -71,9 +71,8 @@ export default {
     async login(){
       var email = this.email
       var password = this.password
-
       try{
-        var idToken = await this.$axios.$get(`http://localhost:3001/login/${email}/${password}/`)
+        var idToken = await this.$axios.$get(`${this.$urls.firebase}/login/${email}/${password}/`)
         this.$store.commit("setToken", idToken)
         this.$router.push('/wasephil')
 

@@ -142,7 +142,7 @@ export default {
       }
       try {
         var res = await this.$axios.$put(this.$urls.api + '/put_route', r, {
-          headers: {Authorization: `Bearer ${jwt}`}
+          headers: {Authorization: `Bearer ${this.$store.getters.getToken}`}
         })
 
         route.id = res.Route.ID
@@ -168,7 +168,7 @@ export default {
       }
       try {
         await this.$axios.$put(this.$urls.api + '/put_route', r, {
-          headers: {Authorization: `Bearer ${jwt}`}
+          headers: {Authorization: `Bearer ${this.$store.getters.getToken}`}
         })
 
         route.newRow = false
