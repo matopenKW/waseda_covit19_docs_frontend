@@ -134,7 +134,6 @@ export default {
       this.routes[index].detailShow = !f;
     },
     async registRoute(index) {
-      var jwt = this.$cookies.get('jwt')
       var route = this.routes[index];
       var r = {
         name : route.name,
@@ -142,7 +141,7 @@ export default {
         return_trip : route.return
       }
       try {
-        var res = await this.$axios.$put('/put_route', r, {
+        var res = await this.$axios.$put(this.$urls.api + '/put_route', r, {
           headers: {Authorization: `Bearer ${jwt}`}
         })
 
@@ -160,7 +159,6 @@ export default {
       route.ro = false
     },
     async updateRoute(index) {
-      var jwt = this.$cookies.get('jwt')
       var route = this.routes[index];
       var r = {
         route_id : route.id,
@@ -169,7 +167,7 @@ export default {
         return_trip : route.return
       }
       try {
-        await this.$axios.$put('/put_route', r, {
+        await this.$axios.$put(this.$urls.api + '/put_route', r, {
           headers: {Authorization: `Bearer ${jwt}`}
         })
 
@@ -182,14 +180,13 @@ export default {
       }
     },
     async deleteRoute(index) {
-      var jwt = this.$cookies.get('jwt')
       var route = this.routes[index];
       var r = {
         route_id : route.id
       }
       try {
-        await this.$axios.$delete('/delete_route', {
-          headers: {Authorization: `Bearer ${jwt}`},
+        await this.$axios.$delete(this.$urls.api + '/delete_route', {
+          headers: {Authorization: `Bearer ${this.$store.getters.getToken}`},
           data: {route_id : route.id}
         })
 
@@ -204,8 +201,8 @@ export default {
 
   mounted: function () {
     this.routes = [];
-    this.$axios.$get("/get_routes", {
-      headers: {Authorization: `Bearer ${this.$cookies.get('jwt')}`}
+    this.$axios.$get(this.$urls.api + "/get_routes", {
+      headers: {Authorization: `Bearer ${this.$store.getters.getToken}`}
     })
     .then((res) => {
       var routes = res.Routes;

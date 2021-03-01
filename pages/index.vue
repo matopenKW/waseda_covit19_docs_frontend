@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import firebase from 'firebase/app';
+import axios from "axios";
 
 export default {
   layout ({ store }) {
@@ -69,10 +69,12 @@ export default {
   },
   methods: {
     async login(){
+      var email = this.email
+      var password = this.password
+
       try{
-        var res = await firebase.auth().signInWithEmailAndPassword(this.email, this.password)
-        var idToken = await res.user.getIdToken()
-        this.$cookies.set('jwt', idToken)
+        var idToken = await this.$axios.$get(`http://localhost:3001/login/${email}/${password}/`)
+        this.$store.commit("setToken", idToken)
         this.$router.push('/wasephil')
 
       } catch(e){
