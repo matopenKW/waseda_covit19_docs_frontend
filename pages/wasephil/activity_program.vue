@@ -34,7 +34,7 @@
                     </div>
                     <div class="card-body">
                         <select>
-                            <option v-for="activity in activities" :key="activity.id" :value="activity.id">{{ activity.name }}</option>
+                            <option v-for="practice in practices" :key="practice.id" :value="practice.id">{{ practice.name }}</option>
                         </select>
                     </div>
                 </div>
@@ -48,7 +48,7 @@
                     </div>
                     <div class="card-body">
                         <select>
-                            <option v-for="practice in practices" :key="practice.id" :value="practice.id">{{ practice.name }}</option>
+                            <option v-for="activity in activities" :key="activity.id" :value="activity.id">{{ activity.name }}</option>
                         </select>
                     </div>
                 </div>
@@ -198,8 +198,7 @@ export default {
                 alert('経路を選択してください。')
                 return
             }
-            
-            var jwt = this.$cookies.get('jwt')
+
             var p = {
                 datetime: this.datetime.replaceAll('-', ''),
                 start_time: this.startTime.replace(':', ''),
@@ -215,8 +214,8 @@ export default {
             }
             console.log(p)
             try {
-                var res = await this.$axios.$put('/put_activity_program', p, {
-                    headers: {Authorization: `Bearer ${jwt}`}
+                var res = await this.$axios.$put(this.$urls.api + '/put_activity_program', p, {
+                    headers: {Authorization: `Bearer ${this.$store.getters.getToken}`}
                 })
 
                 alert('登録しました。')
@@ -238,9 +237,8 @@ export default {
         var dd = ('0'+today.getDate()).slice(-2);
         this.datetime = yyyy+'-'+mm+'-'+dd;
 
-        var jwt = this.$cookies.get('jwt')
-        this.$axios.$get("/get_routes", {
-            headers: {Authorization: `Bearer ${this.$cookies.get('jwt')}`}
+        this.$axios.$get(this.$urls.api + "/get_routes", {
+            headers: {Authorization: `Bearer ${this.$store.getters.getToken}`}
         })
         .then((res) => {
             var routes = res.Routes;

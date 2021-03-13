@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import firebase from 'firebase/app';
+import axios from "axios";
 
 export default {
   layout ({ store }) {
@@ -69,32 +69,51 @@ export default {
   },
   methods: {
     async login(){
+      var email = this.email
+      var password = this.password
+
+      var reg = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/;
+      if (!reg.test(email)){
+        alert('メールアドレスの形式が不正です。');
+        return
+      }
       try{
-        var res = await firebase.auth().signInWithEmailAndPassword(this.email, this.password)
-        var idToken = await res.user.getIdToken()
-        this.$cookies.set('jwt', idToken)
+        var idToken = await this.$axios.$put(this.$urls.firebase + '/login', {
+            email: email,
+            password: password,
+        })
+        this.$store.commit("setToken", idToken)
         this.$router.push('/wasephil')
 
       } catch(e){
-        if (e.code === 'auth/invalid-email') {
+        if (!e || !e.response || !e.response.data){
+          alert('server error')
+          return
+        }
+
+        var err = e.response.data
+        if (err.code === 'auth/invalid-email') {
           alert('メールアドレスの形式が不正です。');
 
-        } else if (e.code === 'auth/wrong-password') {
+        } else if (err.code === 'auth/wrong-password') {
           alert('パスワードが間違っている又は不正な形式です。');
 
-        } else if (e.code === 'auth/user-not-found') {
+        } else if (err.code === 'auth/user-not-found') {
           alert('存在しないユーザー又は削除された可能性があります。');
 
-        } else if (e.code === 'auth/email-already-in-use'){
+        } else if (err.code === 'auth/email-already-in-use'){
           alert('既に登録してあるメールアドレスです。');
 
-        } else if (e.code === 'auth/weak-password') {
+        } else if (err.code === 'auth/weak-password') {
           alert('パスワードは６桁以上で登録してください。');
 
+        } else if (err.code === 'auth/too-many-requests') {
+          alert('ログイン失敗が続いたためアクセスが無効となっています。再度パスワード設定してください。');
+
         } else {
-          alert(e.message);
+          alert(err.message);
         }
-        console.log(e);
+        console.log(err);
       }
     }
   },

@@ -1,7 +1,5 @@
-import firebase from "~/plugins/firebase";
 
-
-export const stete = () => ({
+export const state = () => ({
     token: '',
 })
 
@@ -9,10 +7,13 @@ export const actions = {
 }
 
 export const mutations = {
+    setToken: (state, token) => {
+        state.token = token
+    }
 }
 
 export const getters = {
-    isLoggedIn(state){
-        return !!state.token
+    getToken: state => {
+        return state.token
     }
 }

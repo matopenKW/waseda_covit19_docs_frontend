@@ -63,20 +63,25 @@ export default {
     },
     methods: {
         async register(){
-            if (this.password !== this.repeatPassword){
+            var reg = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/;
+            if (!reg.test(this.email)){
+                alert('メールアドレスの形式が不正です。');
+                return
+            } else if (this.password !== this.repeatPassword){
                 alert('パスワードと確認パスワードが異なっています。')
                 return 
             }
+            try {
+                await this.$axios.$post(this.$urls.api + '/create_user', {
+                    email: this.email,
+                    password: this.password,
+                })
 
-            firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
-            .then(() => {
-                console.log('ユーザー作成完了')
-                alert('ユーザー作成')
-            })
-            .catch((error) => {
-                console.log('ユーザー作成失敗', error);
-                alert('ユーザー作成失敗')
-            });
+                alert('アカウントを作成しました。')
+            } catch(e) {
+                alert("server error")
+                console.log(e)
+            };
         }
     },
 }

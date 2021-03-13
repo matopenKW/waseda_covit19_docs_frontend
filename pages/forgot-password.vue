@@ -51,12 +51,29 @@ export default {
     },
     methods: {
         async resetPassword(){
-            var auth = firebase.auth();
-            auth.sendPasswordResetEmail(this.email).then(function() {
+            var reg = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/;
+            if (!reg.test(this.email)){
+                alert('メールアドレスの形式が不正です。');
+                return
+            }
+
+            try {
+                await this.$axios.$get(this.$urls.firebase + '/password-reset/' + this.email)
                 alert("再設定用のメールを送りました。")
-            }).catch(function(error) {
-                alert('error')
-            });
+
+            }catch(e){
+                console.log(e)
+                if (!e || !e.response || !e.response.data){
+                    alert('server error')
+                    return
+                }
+                if (err.code === 'auth/user-not-found') {
+                    alert('メールアドレスが登録されていません。');
+                } else {
+                    alert(err.message);
+                }
+
+            }
         },
     },
 }
