@@ -63,28 +63,23 @@ export default {
     },
     methods: {
         async register(){
-            if (this.password !== this.repeatPassword){
+            var reg = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/;
+            if (!reg.test(this.email)){
+                alert('メールアドレスの形式が不正です。');
+                return
+            } else if (this.password !== this.repeatPassword){
                 alert('パスワードと確認パスワードが異なっています。')
                 return 
             }
             try {
-                await firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
-                alert('ユーザー作成')
-
-                var res = await firebase.auth().signInWithEmailAndPassword(this.email, this.password)
-
-
-                console.log(res.user.uid)
-                var idToken = await res.user.getIdToken()
-                await this.$axios.$put('/put_user', {
+                await this.$axios.$post(this.$urls.api + '/create_user', {
                     email: this.email,
-                    uid: res.user.uid,
-                }, {
-                    headers: {Authorization: `Bearer ${idToken}`}
+                    password: this.password,
                 })
 
+                alert('アカウントを作成しました。')
             } catch(e) {
-                alert(e.message)
+                alert("server error")
                 console.log(e)
             };
         }

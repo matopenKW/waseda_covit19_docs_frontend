@@ -15,7 +15,6 @@ export default {
       }
     ],
   },
-
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
     '@/assets/css/sb-admin-2.min.css',

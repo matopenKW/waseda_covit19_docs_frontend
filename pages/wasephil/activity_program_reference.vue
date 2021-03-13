@@ -117,19 +117,17 @@ export default {
             if (!ap){
                 this.$router.push('/wasephil/history')
             }
-
-            datetime = ap.Datetime
-            startTime = ap.StartTime
-            endTime = ap.EndTime
-            practiceName = ap.PracticeName
-            activityName = ap.ActivityName
-            outwardTrip = ap.OutwardTrip
-            returnTrip = ap.ReturnTrip
-            contactPerson1 = ap.ContactPerson1
-            contactAbstract1 = ap.ContactAbstract1
-            contactPerson2 = ap.ContactPerson2
-            contactAbstract2 = ap.ContactAbstract2
-
+            this.datetime = ap.Datetime
+            this.startTime = ap.StartTime
+            this.endTime = ap.EndTime
+            this.practiceName = ap.PracticeName
+            this.activityName = ap.ActivityName
+            this.outwardTrip = ap.OutwardTrip
+            this.returnTrip = ap.ReturnTrip
+            this.contactPerson1 = ap.ContactPerson1
+            this.contactAbstract1 = ap.ContactAbstract1
+            this.contactPerson2 = ap.ContactPerson2
+            this.contactAbstract2 = ap.ContactAbstract2
         })
         .catch((err) => {
             alert(err.message);
