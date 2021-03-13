@@ -55,6 +55,22 @@
           </div>
         </div>
       </div>
+
+      <div class="col-xl-3 col-md-6 mb-4" @click="profile">
+        <div class="card border-left-dark shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="h5 mb-0 font-weight-bold text-gray-800">Profile</div>
+              </div>
+              <div class="col-auto">
+                <i class="fas fa-user fa-2x text-gray-300"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -70,6 +86,9 @@ export default {
       },
       async history(){
         this.$router.push('/wasephil/history')
+      },
+      async profile(){
+        this.$router.push('/wasephil/profile')
       },
     },
     mounted: function(){
