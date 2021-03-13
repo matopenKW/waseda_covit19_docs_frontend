@@ -13,7 +13,7 @@
           <span class="text">経路を追加</span>
         </a>
       </div>
-      <div class="row" v-for="(route, index) in routes" :key="route.id">
+      <div class="row" v-for="(route, index) in routes" :key="route.seqNo">
         <div class="col-lg-6">
           <div class="card">
             <div class="card-header py-3" @click="openDetail(index)">
@@ -92,7 +92,6 @@
 
 
 
- <!-- クリックしたときの動き -->
 <script>
 import axios from "axios";
 
@@ -101,7 +100,7 @@ export default {
     return {
       routes: [
         {
-          id: 0,
+          seqNo: 0,
           name: "",
           going: "",
           return: "",
@@ -145,7 +144,7 @@ export default {
           headers: {Authorization: `Bearer ${this.$store.getters.getToken}`}
         })
 
-        route.id = res.Route.ID
+        route.seqNo = res.Route.SeqNo
         route.newRow = false
         route.ro = true
         alert('登録しました。')
@@ -161,7 +160,7 @@ export default {
     async updateRoute(index) {
       var route = this.routes[index];
       var r = {
-        route_id : route.id,
+        seq_no : route.seqNo,
         name : route.name,
         outward_trip : route.going,
         return_trip : route.return
@@ -181,13 +180,10 @@ export default {
     },
     async deleteRoute(index) {
       var route = this.routes[index];
-      var r = {
-        route_id : route.id
-      }
       try {
         await this.$axios.$delete(this.$urls.api + '/delete_route', {
           headers: {Authorization: `Bearer ${this.$store.getters.getToken}`},
-          data: {route_id : route.id}
+          data: {seq_no : route.seqNo}
         })
 
         this.routes.splice(index, 1)
@@ -208,7 +204,7 @@ export default {
       var routes = res.Routes;
       routes.forEach((route) => {
         var r = {
-          id : route.ID,
+          seqNo : route.SeqNo,
           name : route.Name,
           going : route.OutwardTrip,
           return : route.ReturnTrip,

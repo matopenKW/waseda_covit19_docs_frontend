@@ -78,12 +78,15 @@ export default {
         return
       }
       try{
-        var idToken = await this.$axios.$get(`${this.$urls.firebase}/login/${email}/${password}/`)
+        var idToken = await this.$axios.$put(this.$urls.firebase + '/login', {
+            email: email,
+            password: password,
+        })
         this.$store.commit("setToken", idToken)
         this.$router.push('/wasephil')
 
       } catch(e){
-        if (!e || e.response || e.response.data){
+        if (!e || !e.response || !e.response.data){
           alert('server error')
           return
         }
